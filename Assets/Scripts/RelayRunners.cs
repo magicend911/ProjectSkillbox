@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class RelayRunners : MonoBehaviour
 {
-    public Transform[] runners;    // Массив бегунов
-    public float moveSpeed = 5f;   // Скорость движения бегунов
-    public float passDistance = 2f; // Дистанция, при которой передается эстафета
+    [SerializeField] private Transform[] runners;   
+    [SerializeField] private float moveSpeed = 5f;  
+    [SerializeField] private float passDistance = 2f; 
 
     private int currentRunnerIndex = 0;
 
@@ -22,7 +22,6 @@ public class RelayRunners : MonoBehaviour
 
     void SetNextRunner()
     {
-        // Вращение текущего бегуна к следующему
         if (currentRunnerIndex < runners.Length - 1)
             runners[currentRunnerIndex].LookAt(runners[currentRunnerIndex + 1]);
         else
@@ -31,10 +30,8 @@ public class RelayRunners : MonoBehaviour
 
     void MoveRunner()
     {
-        // Перемещение текущего бегуна
         runners[currentRunnerIndex].Translate(Vector3.forward * moveSpeed * Time.deltaTime);
 
-        // Проверка дистанции и передача эстафеты
         if (Vector3.Distance(runners[currentRunnerIndex].position, runners[(currentRunnerIndex + 1) % runners.Length].position) < passDistance)
         {
             currentRunnerIndex = (currentRunnerIndex + 1) % runners.Length;
